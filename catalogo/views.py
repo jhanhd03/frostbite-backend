@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, filters
 from .models import Categoria, Producto, Pedido
 from .serializers import CategoriaSerializer, ProductoSerializer, PedidoSerializer
 
@@ -10,6 +10,9 @@ class CategoriaViewSet(viewsets.ModelViewSet):
 class ProductoViewSet(viewsets.ModelViewSet):
     queryset = Producto.objects.all()
     serializer_class = ProductoSerializer
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['nombre', 'formato', 'categoria__nombre']
+    ordering_fields = ['precio', 'stock', 'fecha_creacion']
 
 
 class PedidoViewSet(viewsets.ModelViewSet):
